@@ -317,12 +317,21 @@ function startTypingAnimations() {
 }
 
 // ============================================
-// Hero Section Animated Dots Background
+// Hero Section Animated Dots Background - Cursor Following
 // ============================================
+
+let heroDots = [];
+let mouseX = 0;
+let mouseY = 0;
+let targetX = 0;
+let targetY = 0;
+let isMouseInHero = false;
+let animationFrameId = null;
 
 function createHeroDotsOptimized() {
     const dotsContainer = document.getElementById('heroDots');
-    if (!dotsContainer) return;
+    const heroSection = document.querySelector('.hero');
+    if (!dotsContainer || !heroSection) return;
     
     // Prevent multiple initializations
     if (dotsContainer.children.length > 0) return;
@@ -330,90 +339,193 @@ function createHeroDotsOptimized() {
     // Calculate number of dots based on viewport size (performance optimized)
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const dotDensity = Math.min(Math.floor((viewportWidth * viewportHeight) / 15000), 80);
+    const dotDensity = Math.min(Math.floor((viewportWidth * viewportHeight) / 10000), 90); // Increased density (was 15000, now 10000) and max (was 60, now 90)
     
-    // Create style element for keyframes
-    let styleSheet = document.getElementById('heroDotsStyles');
-    if (!styleSheet) {
-        styleSheet = document.createElement('style');
-        styleSheet.id = 'heroDotsStyles';
-        document.head.appendChild(styleSheet);
-    }
+    // Clear existing dots array
+    heroDots = [];
     
-    let keyframesCSS = '';
-    const dots = [];
-    const dotConfigs = [];
-    
-    // First pass: Generate all dot configurations
+    // Create dots with initial random positions
     for (let i = 0; i < dotDensity; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'hero-dot';
+        
         // Random initial position
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
+        const initialX = Math.random() * 100;
+        const initialY = Math.random() * 100;
         
-        // Random movement parameters (more visible movement)
-        const moveX = (Math.random() - 0.5) * 50; // -25 to 25px
-        const moveY = (Math.random() - 0.5) * 50;
-        const moveDuration = 15 + Math.random() * 20; // 15-35 seconds
-        
-        // Random blinking parameters (independent timing)
+        // Random blinking parameters
         const blinkDelay = Math.random() * 2;
-        const blinkDuration = 2.5 + Math.random() * 2.5; // 2.5-5 seconds
+        const blinkDuration = 2.5 + Math.random() * 2.5;
         
-        // Random movement delay for staggered effect
-        const moveDelay = Math.random() * 3;
+        // Apply blinking animation
+        dot.style.animation = `dotBlink ${blinkDuration}s ease-in-out infinite`;
+        dot.style.animationDelay = `${blinkDelay}s`;
         
-        // Create unique keyframe animation for floating movement
-        const animationName = `floatDot${i}`;
-        keyframesCSS += `
-            @keyframes ${animationName} {
-                0% { transform: translate(0, 0); }
-                25% { transform: translate(${moveX * 0.7}px, ${moveY * 0.7}px); }
-                50% { transform: translate(${moveX}px, ${moveY}px); }
-                75% { transform: translate(${moveX * 0.7}px, ${moveY * 0.7}px); }
-                100% { transform: translate(0, 0); }
-            }
-        `;
+        // Set initial position (will be calculated properly in animate function)
+        dot.style.left = '0';
+        dot.style.top = '0';
         
-        dotConfigs.push({
-            x,
-            y,
-            animationName,
-            moveDuration,
-            blinkDuration,
-            moveDelay,
-            blinkDelay
-        });
+        // Store dot data with different chase speeds for staggered effect
+        const dotData = {
+            element: dot,
+            x: initialX,
+            y: initialY,
+            targetX: initialX,
+            targetY: initialY,
+            speed: 0.012 + Math.random() * 0.015, // Faster follow speed (0.012-0.037) for responsive following
+            attractionRadius: 30 + Math.random() * 5, // Attraction radius in percentage (30-35%) - larger area attracts dots
+            idleX: initialX,
+            idleY: initialY,
+            idleSpeed: 0.0005 + Math.random() * 0.008, // Very slow idle movement
+            idleTargetX: initialX + (Math.random() - 0.5) * 20,
+            idleTargetY: initialY + (Math.random() - 0.5) * 20
+        };
+        
+        heroDots.push(dotData);
+        dotsContainer.appendChild(dot);
     }
     
-    // Inject all keyframes first
-    styleSheet.textContent = keyframesCSS;
+    // Set initial positions after a brief delay to ensure hero section is rendered
+    setTimeout(() => {
+        const heroRect = document.querySelector('.hero').getBoundingClientRect();
+        heroDots.forEach(dot => {
+            const initialPixelX = (dot.x / 100) * heroRect.width;
+            const initialPixelY = (dot.y / 100) * heroRect.height;
+            dot.element.style.transform = `translate(${initialPixelX}px, ${initialPixelY}px)`;
+        });
+        // Start animation loop
+        startDotAnimation();
+    }, 50);
+}
+
+function startDotAnimation() {
+    if (animationFrameId) return; // Already running
     
-    // Force a reflow to ensure keyframes are registered
-    void styleSheet.offsetHeight;
-    
-    // Second pass: Create dots and apply animations
-    dotConfigs.forEach((config, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'hero-dot floating';
+    function animate() {
+        const heroSection = document.querySelector('.hero');
+        if (!heroSection || heroDots.length === 0) {
+            animationFrameId = requestAnimationFrame(animate);
+            return;
+        }
         
-        // Set initial position
-        dot.style.left = `${config.x}%`;
-        dot.style.top = `${config.y}%`;
+        const heroRect = heroSection.getBoundingClientRect();
+        const heroWidth = heroRect.width;
+        const heroHeight = heroRect.height;
         
-        // Apply animations with proper delays
-        dot.style.animation = `${config.animationName} ${config.moveDuration}s ease-in-out infinite, dotBlink ${config.blinkDuration}s ease-in-out infinite`;
-        dot.style.animationDelay = `${config.moveDelay}s, ${config.blinkDelay}s`;
+        heroDots.forEach((dot) => {
+            const dotElement = dot.element;
+            
+            if (isMouseInHero) {
+                // Calculate cursor position relative to hero section
+                const cursorX = ((mouseX - heroRect.left) / heroWidth) * 100;
+                const cursorY = ((mouseY - heroRect.top) / heroHeight) * 100;
+                
+                // Calculate distance from dot to cursor in percentage
+                const dx = cursorX - dot.x;
+                const dy = cursorY - dot.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Only attract dots that are VERY close to cursor (small radius)
+                if (distance < dot.attractionRadius) {
+                    // Calculate attraction strength based on distance (stronger when closer)
+                    // Use inverse square law for smooth falloff
+                    const maxDistance = dot.attractionRadius;
+                    const normalizedDistance = Math.min(distance / maxDistance, 1);
+                    const attractionStrength = 1 - normalizedDistance; // 1 at cursor, 0 at edge
+                    
+                    // Move towards cursor, but maintain a small distance
+                    const angle = Math.atan2(dy, dx);
+                    const followDistance = 2; // Keep 2% distance from cursor
+                    dot.targetX = cursorX - Math.cos(angle) * followDistance;
+                    dot.targetY = cursorY - Math.sin(angle) * followDistance;
+                    
+                    // Use distance-based speed for smoother movement with easing
+                    const adjustedSpeed = dot.speed * (0.3 + attractionStrength * 0.7);
+                    // Apply easing for ultra-smooth movement
+                    const dxToTarget = dot.targetX - dot.x;
+                    const dyToTarget = dot.targetY - dot.y;
+                    const distanceToTarget = Math.sqrt(dxToTarget * dxToTarget + dyToTarget * dyToTarget);
+                    // Easing: faster when far, slower when close (smooth deceleration)
+                    const easingFactor = Math.min(1, distanceToTarget * 2);
+                    const finalSpeed = adjustedSpeed * (0.5 + easingFactor * 0.5);
+                    dot.x += (dot.targetX - dot.x) * finalSpeed;
+                    dot.y += (dot.targetY - dot.y) * finalSpeed;
+                } else {
+                    // Dot is too far - return to idle position smoothly
+                    dot.targetX = dot.idleX;
+                    dot.targetY = dot.idleY;
+                    dot.x += (dot.targetX - dot.x) * dot.idleSpeed;
+                    dot.y += (dot.targetY - dot.y) * dot.idleSpeed;
+                }
+            } else {
+                // Idle movement when mouse is not in hero section
+                dot.targetX = dot.idleTargetX;
+                dot.targetY = dot.idleTargetY;
+                
+                // Change idle target occasionally
+                if (Math.random() < 0.005) {
+                    dot.idleTargetX = dot.idleX + (Math.random() - 0.5) * 20;
+                    dot.idleTargetY = dot.idleY + (Math.random() - 0.5) * 20;
+                }
+                
+                // Smooth interpolation towards idle target
+                dot.x += (dot.targetX - dot.x) * dot.idleSpeed;
+                dot.y += (dot.targetY - dot.y) * dot.idleSpeed;
+            }
+            
+            // Calculate pixel positions
+            const pixelX = (dot.x / 100) * heroWidth;
+            const pixelY = (dot.y / 100) * heroHeight;
+            
+            // Update dot position using transform for better performance
+            dotElement.style.transform = `translate(${pixelX}px, ${pixelY}px)`;
+        });
         
-        dots.push(dot);
-    });
+        animationFrameId = requestAnimationFrame(animate);
+    }
     
-    // Append all dots at once using DocumentFragment (better performance)
-    const fragment = document.createDocumentFragment();
-    dots.forEach(dot => fragment.appendChild(dot));
-    dotsContainer.appendChild(fragment);
+    animate();
+}
+
+// Track mouse position
+function handleMouseMove(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+}
+
+// Check if mouse is in hero section
+function handleMouseEnter() {
+    isMouseInHero = true;
+}
+
+function handleMouseLeave() {
+    isMouseInHero = false;
+}
+
+// Initialize mouse tracking
+function initCursorTracking() {
+    const heroSection = document.querySelector('.hero');
+    if (!heroSection) return;
     
-    // Force reflow to trigger animations
-    void dotsContainer.offsetHeight;
+    // Track mouse movement globally for better responsiveness
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+    // Track when mouse enters/leaves hero section
+    heroSection.addEventListener('mouseenter', handleMouseEnter);
+    heroSection.addEventListener('mouseleave', handleMouseLeave);
+    
+    // Also check mouse position on mouse move to handle edge cases
+    document.addEventListener('mousemove', (e) => {
+        const heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            const rect = heroSection.getBoundingClientRect();
+            const isInside = e.clientX >= rect.left && 
+                           e.clientX <= rect.right && 
+                           e.clientY >= rect.top && 
+                           e.clientY <= rect.bottom;
+            isMouseInHero = isInside;
+        }
+    }, { passive: true });
 }
 
 // ============================================
@@ -428,8 +540,26 @@ window.addEventListener('load', () => {
         startTypingAnimations();
         // Initialize hero dots after page load
         createHeroDotsOptimized();
+        // Initialize cursor tracking
+        initCursorTracking();
     }, 100);
 });
+
+// Reinitialize on resize to adjust dot positions
+window.addEventListener('resize', () => {
+    const dotsContainer = document.getElementById('heroDots');
+    if (dotsContainer && dotsContainer.children.length > 0) {
+        // Reset dots on resize
+        heroDots.forEach(dot => {
+            const rect = dot.element.getBoundingClientRect();
+            const heroRect = document.querySelector('.hero').getBoundingClientRect();
+            dot.x = ((rect.left - heroRect.left) / heroRect.width) * 100;
+            dot.y = ((rect.top - heroRect.top) / heroRect.height) * 100;
+            dot.idleX = dot.x;
+            dot.idleY = dot.y;
+        });
+    }
+}, { passive: true });
 
 // ============================================
 // Keyboard Navigation
