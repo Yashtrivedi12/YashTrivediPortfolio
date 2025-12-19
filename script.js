@@ -339,7 +339,7 @@ function createHeroDotsOptimized() {
     // Calculate number of dots based on viewport size (performance optimized)
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const dotDensity = Math.min(Math.floor((viewportWidth * viewportHeight) / 10000), 90); // Increased density (was 15000, now 10000) and max (was 60, now 90)
+    const dotDensity = Math.min(Math.floor((viewportWidth * viewportHeight) / 10000), 111111); // Increased density (was 15000, now 10000) and max (was 60, now 90)
     
     // Clear existing dots array
     heroDots = [];
