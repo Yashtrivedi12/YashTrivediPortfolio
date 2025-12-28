@@ -8,6 +8,32 @@ const navMenu = document.getElementById('navMenu');
 const navbar = document.getElementById('navbar');
 
 // Smooth scroll to sections
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        emailjs.sendForm(
+            "service_v2mk28l",
+            "template_a90fofe",
+            this
+        )
+            .then(function () {
+                alert("Message sent successfully!");
+                form.reset();
+            })
+            .catch(function (error) {
+                console.error("EmailJS Error:", error);
+                alert("Failed to send message. Please try again.");
+            });
+    });
+});
+
+
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -687,5 +713,8 @@ function updateYear() {
 }
 
 window.addEventListener('load', updateYear);
+
+
+
 
 
