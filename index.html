@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ============================================
+         Primary Meta Tags
+         ============================================ -->
+    <title>Yash Trivedi — Flutter Developer | Premium Mobile App Portfolio</title>
+    <meta name="title" content="Yash Trivedi — Flutter Developer | Premium Mobile App Portfolio">
+    <meta name="description"
+        content="Flutter Developer with 2+ years of experience building high-performance cross-platform mobile applications for Android and iOS. Specializing in REST API integration, clean architecture, state management, payment gateways, and AI-assisted development.">
+    <meta name="keywords"
+        content="Flutter Developer, Mobile App Developer, Dart Developer, Flutter Portfolio, Cross-platform Development, Android Developer, iOS Developer, Clean Architecture, State Management, REST API Integration, Firebase, Payment Gateways, Mobile Development India, Gujarat Developer">
+    <meta name="author" content="Yash Trivedi">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#030014">
+
+    <link rel="canonical" href="https://yashtrivedi.dev">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yashtrivedi.dev">
+    <meta property="og:title" content="Yash Trivedi — Flutter Developer | Premium Mobile App Portfolio">
+    <meta property="og:description"
+        content="Flutter Developer with 2+ years of experience building high-performance cross-platform mobile applications. Specializing in REST API integration, clean architecture, payment gateways, and AI-assisted development.">
+    <meta property="og:image" content="https://yashtrivedi.dev/assets/yash.png">
+    <meta property="og:site_name" content="Yash Trivedi Portfolio">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Yash Trivedi — Flutter Developer | Premium Mobile App Portfolio">
+    <meta name="twitter:description"
+        content="Flutter Developer with 2+ years of experience building high-performance cross-platform mobile applications.">
+    <meta name="twitter:image" content="https://yashtrivedi.dev/assets/yash.png">
+
+    <meta name="geo.region" content="IN-GJ">
+    <meta name="geo.placename" content="Bhavnagar, Gujarat, India">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <!-- ============================================
+         Fonts — Space Grotesk (display) + Inter (body)
+         ============================================ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- ============================================
+         Structured Data (JSON-LD)
+         ============================================ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Yash Trivedi",
+        "jobTitle": "Flutter Developer",
+        "description": "Flutter Developer with 2+ years of experience building high-performance cross-platform mobile applications for Android and iOS",
+        "url": "https://yashtrivedi.dev",
+        "image": "https://yashtrivedi.dev/assets/yash.png",
+        "email": "trivediyash2909@gmail.com",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Bhavnagar",
+            "addressRegion": "Gujarat",
+            "addressCountry": "IN"
+        },
+        "sameAs": ["https://www.linkedin.com/in/yash-trivedi-6b9568249"],
+        "worksFor": {
+            "@type": "Organization",
+            "name": "Sparrow Softtech",
+            "address": { "@type": "PostalAddress", "addressLocality": "Bhavnagar", "addressRegion": "Gujarat", "addressCountry": "IN" }
+        },
+        "knowsAbout": ["Flutter", "Dart", "Mobile App Development", "Cross-platform Development", "Clean Architecture", "State Management", "REST API Integration", "Firebase", "Payment Gateway Integration", "AI-Assisted Development"],
+        "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "Shree Swaminarayan College of Computer Science",
+            "address": { "@type": "PostalAddress", "addressLocality": "Bhavnagar", "addressRegion": "Gujarat", "addressCountry": "IN" }
+        }
+    }
+    </script>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js" defer></script>
+</head>
+
+<body>
+
+    <!-- ============================================
+         Preloader
+         ============================================ -->
+    <div class="preloader" id="preloader" aria-hidden="true">
+        <div class="preloader-inner">
+            <span class="preloader-logo">YT<span class="preloader-dot">.</span></span>
+            <div class="preloader-bar"><span class="preloader-progress"></span></div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         Living Background System
+         aurora blobs / mesh grid / noise / particles / spotlight
+         ============================================ -->
+    <div class="bg-system" aria-hidden="true">
+        <div class="bg-aurora">
+            <div class="aurora-blob aurora-1"></div>
+            <div class="aurora-blob aurora-2"></div>
+            <div class="aurora-blob aurora-3"></div>
+        </div>
+        <div class="bg-grid"></div>
+        <canvas class="bg-particles" id="particlesCanvas"></canvas>
+        <div class="bg-spotlight" id="spotlight"></div>
+        <div class="bg-noise"></div>
+    </div>
+
+    <!-- Custom cursor (desktop only) -->
+    <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- ============================================
+         Navigation
+         ============================================ -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-logo" data-magnetic>YT<span class="logo-dot">.</span></a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#hero" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+            </ul>
+            <a href="#contact" class="btn btn-primary btn-sm nav-cta" data-magnetic>
+                <span class="btn-label">Let's Talk</span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"
+                aria-controls="navMenu">
+                <span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ============================================
+             HERO
+             ============================================ -->
+        <section id="hero" class="hero" aria-label="Introduction">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <p class="hero-eyebrow load-seq" style="--d:.05s">
+                        <span class="eyebrow-dot"></span> Flutter Developer · Open to opportunities
+                    </p>
+                    <h1 class="hero-title">
+                        <span class="split-line load-seq" style="--d:.15s" data-split>Hi, I'm Yash.</span>
+                        <span class="split-line gradient-text load-seq" style="--d:.3s" data-split>I craft fluid</span>
+                        <span class="split-line gradient-text load-seq" style="--d:.45s" data-split>mobile
+                            experiences.</span>
+                    </h1>
+                    <p class="hero-sub load-seq" style="--d:.6s">
+                        Flutter Developer with 2+ years of experience building high-performance,
+                        cross-platform apps for Android &amp; iOS — from payment-integrated field platforms
+                        to AI-powered photo tools.
+                    </p>
+                    <div class="hero-actions load-seq" style="--d:.75s">
+                        <a href="#contact" class="btn btn-primary" data-magnetic>
+                            <span class="btn-label">Get In Touch</span>
+                            <span class="btn-arrow" aria-hidden="true">→</span>
+                        </a>
+                        <a href="#projects" class="btn btn-ghost" data-magnetic>
+                            <span class="btn-label">View Work</span>
+                        </a>
+                    </div>
+                    <div class="hero-stats load-seq" style="--d:.9s">
+                        <div class="hero-stat">
+                            <span class="stat-value"><span data-count="2">0</span>+</span>
+                            <span class="stat-caption">Years Experience</span>
+                        </div>
+                        <span class="stat-divider" aria-hidden="true"></span>
+                        <div class="hero-stat">
+                            <span class="stat-value"><span data-count="5">0</span>+</span>
+                            <span class="stat-caption">Major Projects</span>
+                        </div>
+                        <span class="stat-divider" aria-hidden="true"></span>
+                        <div class="hero-stat">
+                            <span class="stat-value"><span data-count="4">0</span>+</span>
+                            <span class="stat-caption">Apps Published</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual load-seq" style="--d:.5s" data-parallax="-0.05">
+                    <div class="morph-blob" aria-hidden="true"></div>
+                    <div class="hero-card tilt glow-border">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <img src="assets/yash.png" alt="Yash Trivedi — Flutter Developer" class="hero-photo"
+                            width="380" height="420">
+                        <div class="hero-card-info">
+                            <div>
+                                <strong>Yash Trivedi</strong>
+                                <span>Flutter Developer</span>
+                            </div>
+                            <span class="status-pill"><span class="status-dot"></span>Available</span>
+                        </div>
+                    </div>
+                    <div class="float-chip chip-1" aria-hidden="true">Flutter</div>
+                    <div class="float-chip chip-2" aria-hidden="true">Firebase</div>
+                    <div class="float-chip chip-3" aria-hidden="true">REST APIs</div>
+                    <div class="float-chip chip-4" aria-hidden="true">Riverpod</div>
+                </div>
+            </div>
+
+            <a href="#about" class="scroll-cue load-seq" style="--d:1.1s" aria-label="Scroll to About section">
+                <span class="scroll-cue-track"><span class="scroll-cue-thumb"></span></span>
+                <span class="scroll-cue-text">Scroll</span>
+            </a>
+        </section>
+
+        <!-- Infinite tech marquee -->
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+                <div class="marquee-group">
+                    <span>Flutter</span><span class="marquee-dot">✦</span>
+                    <span>Dart</span><span class="marquee-dot">✦</span>
+                    <span>Firebase</span><span class="marquee-dot">✦</span>
+                    <span>REST APIs</span><span class="marquee-dot">✦</span>
+                    <span>Riverpod</span><span class="marquee-dot">✦</span>
+                    <span>Provider</span><span class="marquee-dot">✦</span>
+                    <span>Hive</span><span class="marquee-dot">✦</span>
+                    <span>FCM</span><span class="marquee-dot">✦</span>
+                    <span>Clean Architecture</span><span class="marquee-dot">✦</span>
+                    <span>NMI Payments</span><span class="marquee-dot">✦</span>
+                </div>
+                <div class="marquee-group">
+                    <span>Flutter</span><span class="marquee-dot">✦</span>
+                    <span>Dart</span><span class="marquee-dot">✦</span>
+                    <span>Firebase</span><span class="marquee-dot">✦</span>
+                    <span>REST APIs</span><span class="marquee-dot">✦</span>
+                    <span>Riverpod</span><span class="marquee-dot">✦</span>
+                    <span>Provider</span><span class="marquee-dot">✦</span>
+                    <span>Hive</span><span class="marquee-dot">✦</span>
+                    <span>FCM</span><span class="marquee-dot">✦</span>
+                    <span>Clean Architecture</span><span class="marquee-dot">✦</span>
+                    <span>NMI Payments</span><span class="marquee-dot">✦</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             ABOUT — reveals with fade + scale
+             ============================================ -->
+        <section id="about" class="section about" aria-label="About me">
+            <div class="container">
+                <header class="section-head" data-reveal="fade-scale">
+                    <span class="section-tag">01 — About</span>
+                    <h2 class="section-title">Turning ideas into<br><span class="gradient-text">polished apps.</span>
+                    </h2>
+                </header>
+                <div class="about-grid" data-reveal-group>
+                    <div class="about-text" data-reveal="fade-scale">
+                        <p>
+                            I am a Flutter Developer with around 2 years of hands-on experience building
+                            high-performance, cross-platform mobile applications for Android and iOS. I specialize
+                            in responsive UIs, REST API integration, state management, and performance
+                            optimization — all built on clean, maintainable architecture.
+                        </p>
+                        <p>
+                            Alongside Flutter, I have a working understanding of backend development and REST API
+                            design, which lets me collaborate across the full development workflow. I leverage
+                            AI-assisted tools such as <em>Cursor, Claude, and ChatGPT</em> to accelerate delivery
+                            and debug faster — while carefully understanding and validating every line of generated
+                            code. My work ships: real production apps live on the Google Play Store and Apple App
+                            Store.
+                        </p>
+                    </div>
+                    <div class="about-cards">
+                        <div class="glass-card about-card tilt" data-reveal="fade-scale">
+                            <div class="tilt-glare" aria-hidden="true"></div>
+                            <span class="about-card-icon" aria-hidden="true">📱</span>
+                            <h3>Cross-Platform First</h3>
+                            <p>One codebase, two ecosystems — pixel-perfect on Android and iOS.</p>
+                        </div>
+                        <div class="glass-card about-card tilt" data-reveal="fade-scale">
+                            <div class="tilt-glare" aria-hidden="true"></div>
+                            <span class="about-card-icon" aria-hidden="true">⚡</span>
+                            <h3>Performance Obsessed</h3>
+                            <p>Rebuild control, profiling, and 60fps rendering as a baseline, not a bonus.</p>
+                        </div>
+                        <div class="glass-card about-card tilt" data-reveal="fade-scale">
+                            <div class="tilt-glare" aria-hidden="true"></div>
+                            <span class="about-card-icon" aria-hidden="true">🤖</span>
+                            <h3>AI-Accelerated</h3>
+                            <p>Cursor, Claude &amp; ChatGPT in the loop — validated, never blindly trusted.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             EXPERIENCE — cards slide in from opposite sides
+             ============================================ -->
+        <section id="experience" class="section experience" aria-label="Work experience">
+            <div class="container">
+                <header class="section-head" data-reveal="slide-right">
+                    <span class="section-tag">02 — Experience</span>
+                    <h2 class="section-title">Where I've<br><span class="gradient-text">shipped code.</span></h2>
+                </header>
+                <div class="exp-row">
+                    <div class="exp-meta" data-reveal="slide-right">
+                        <span class="exp-date">Jun 2024 — Present</span>
+                        <h3 class="exp-role">Flutter Developer</h3>
+                        <p class="exp-company">Sparrow Softtech<br><span>Bhavnagar, Gujarat</span></p>
+                    </div>
+                    <div class="glass-card exp-card glow-border" data-reveal="slide-left">
+                        <ul class="exp-list">
+                            <li>Developed and maintained cross-platform mobile applications for Android and iOS using
+                                Flutter.</li>
+                            <li>Built responsive and reusable UI components following Flutter best practices.</li>
+                            <li>Integrated REST APIs, Firebase Authentication, Cloud Firestore, Firebase Cloud
+                                Messaging (FCM), and local storage solutions including Hive and SharedPreferences.</li>
+                            <li>Implemented state management using Provider and Riverpod.</li>
+                            <li>Collaborated with backend developers to design and integrate REST APIs.</li>
+                            <li>Published and maintained production applications on the Google Play Store and Apple
+                                App Store.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             SKILLS — staggered rise with parallax accents
+             ============================================ -->
+        <section id="skills" class="section skills" aria-label="Skills">
+            <div class="container">
+                <header class="section-head" data-reveal="fade-up">
+                    <span class="section-tag">03 — Skills</span>
+                    <h2 class="section-title">A toolkit built for<br><span class="gradient-text">production.</span>
+                    </h2>
+                </header>
+                <div class="skills-grid" data-reveal-group>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>Flutter &amp; Dart</h3>
+                        <p>Cross-platform mobile app development for Android &amp; iOS</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>API Integration</h3>
+                        <p>Dio / HTTP, secure API handling, interceptors, optimized responses</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>State Management</h3>
+                        <p>Provider &amp; Riverpod — scalable, maintainable architecture</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>Clean Architecture</h3>
+                        <p>Modular code, reusable widgets, separation of concerns</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>Local Storage</h3>
+                        <p>Hive &amp; SharedPreferences for fast, offline-ready data</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>App Theming</h3>
+                        <p>Light/dark mode, custom themes, component-driven UI</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>Performance</h3>
+                        <p>Rebuild control, memoization, profiling, frame &amp; render optimization</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>Push Notifications</h3>
+                        <p>FCM — foreground/background &amp; topic-based messaging</p>
+                    </div>
+                </div>
+                <div class="tools-strip" data-reveal="fade-up">
+                    <span class="tools-label">Tools &amp; Workflow</span>
+                    <div class="tools-pills">
+                        <span class="pill">GitHub</span>
+                        <span class="pill">Postman</span>
+                        <span class="pill">Jira</span>
+                        <span class="pill">Xcode</span>
+                        <span class="pill">VS Code</span>
+                        <span class="pill">Claude AI</span>
+                        <span class="pill">ChatGPT</span>
+                        <span class="pill">Cursor AI</span>
+                        <span class="pill">App Store Connect</span>
+                        <span class="pill">Play Console</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             PROJECTS — alternating slide + slight rotation
+             ============================================ -->
+        <section id="projects" class="section projects" aria-label="Projects">
+            <div class="container">
+                <header class="section-head" data-reveal="fade-up">
+                    <span class="section-tag">04 — Projects</span>
+                    <h2 class="section-title">Selected<br><span class="gradient-text">work.</span></h2>
+                </header>
+
+                <!-- Featured: Cloud Job Manager -->
+                <article class="glass-card project-card project-featured tilt glow-border" data-reveal="rotate-in">
+                    <div class="tilt-glare" aria-hidden="true"></div>
+                    <div class="project-media project-media-abstract">
+                        <div class="abstract-orb" aria-hidden="true"></div>
+                        <span class="project-media-label" aria-hidden="true">CJM</span>
+                    </div>
+                    <div class="project-body">
+                        <span class="project-kicker">Featured · Field Service Platform</span>
+                        <h3 class="project-name">Cloud Job Manager</h3>
+                        <p class="project-desc">
+                            US-based field service management platform for business owners, workers, and customers.
+                            Job scheduling, quotations, invoices, contracts — plus native Dejavoo Tap-to-Pay,
+                            Google Pay and Apple Pay through the NMI payment gateway.
+                        </p>
+                        <div class="project-tags">
+                            <span class="pill">Flutter</span><span class="pill">REST APIs</span><span
+                                class="pill">NMI Payments</span><span class="pill">GPS</span>
+                        </div>
+                        <button class="btn btn-ghost btn-sm view-project-btn" data-modal="modal-cloudjob"
+                            data-magnetic>
+                            <span class="btn-label">Case Study</span><span class="btn-arrow"
+                                aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </article>
+
+                <div class="projects-grid">
+                    <!-- Pictora -->
+                    <article class="glass-card project-card tilt" data-reveal="slide-right">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <div class="project-media">
+                            <img src="assets/Pictora.png" alt="Pictora — AI Photo Enhancer app" loading="lazy">
+                        </div>
+                        <div class="project-body">
+                            <span class="project-kicker">AI · Image Processing</span>
+                            <h3 class="project-name">Pictora — AI Photo Enhancer</h3>
+                            <div class="project-tags">
+                                <span class="pill">Flutter</span><span class="pill">GFPGAN</span><span
+                                    class="pill">Real-ESRGAN</span>
+                            </div>
+                            <button class="btn btn-ghost btn-sm view-project-btn" data-modal="modal-pictora"
+                                data-magnetic>
+                                <span class="btn-label">Case Study</span><span class="btn-arrow"
+                                    aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Cloud Rental Manager -->
+                    <article class="glass-card project-card tilt" data-reveal="slide-left">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <div class="project-media">
+                            <img src="assets/Cloud.png" alt="Cloud Rental Manager app" loading="lazy">
+                        </div>
+                        <div class="project-body">
+                            <span class="project-kicker">Enterprise · Property Management</span>
+                            <h3 class="project-name">Cloud Rental Manager</h3>
+                            <div class="project-tags">
+                                <span class="pill">Flutter</span><span class="pill">REST APIs</span><span
+                                    class="pill">Role-Based Access</span>
+                            </div>
+                            <button class="btn btn-ghost btn-sm view-project-btn" data-modal="modal-cloud"
+                                data-magnetic>
+                                <span class="btn-label">Case Study</span><span class="btn-arrow"
+                                    aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Rangoli Dandiya -->
+                    <article class="glass-card project-card tilt" data-reveal="slide-right">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <div class="project-media">
+                            <img src="assets/Rangoli.png" alt="Rangoli Dandiya E-Pass system" loading="lazy">
+                        </div>
+                        <div class="project-body">
+                            <span class="project-kicker">Events · QR Verification</span>
+                            <h3 class="project-name">Rangoli Dandiya — E-Pass System</h3>
+                            <div class="project-tags">
+                                <span class="pill">Flutter</span><span class="pill">QR Scanning</span><span
+                                    class="pill">Real-Time</span>
+                            </div>
+                            <button class="btn btn-ghost btn-sm view-project-btn" data-modal="modal-rangoli"
+                                data-magnetic>
+                                <span class="btn-label">Case Study</span><span class="btn-arrow"
+                                    aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Homely Hope -->
+                    <article class="glass-card project-card tilt" data-reveal="slide-left">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <div class="project-media">
+                            <img src="assets/Homelyhope.png" alt="Homely Hope social impact app" loading="lazy">
+                        </div>
+                        <div class="project-body">
+                            <span class="project-kicker">Social Impact · Multi-Module</span>
+                            <h3 class="project-name">Homely Hope</h3>
+                            <div class="project-tags">
+                                <span class="pill">Flutter</span><span class="pill">Multi-Module</span><span
+                                    class="pill">Social Impact</span>
+                            </div>
+                            <button class="btn btn-ghost btn-sm view-project-btn" data-modal="modal-homely"
+                                data-magnetic>
+                                <span class="btn-label">Case Study</span><span class="btn-arrow"
+                                    aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             EDUCATION — clip-path text reveal
+             ============================================ -->
+        <section id="education" class="section education" aria-label="Education">
+            <div class="container">
+                <header class="section-head" data-reveal="clip">
+                    <span class="section-tag">05 — Education</span>
+                    <h2 class="section-title">Where it<br><span class="gradient-text">started.</span></h2>
+                </header>
+                <div class="glass-card edu-card glow-border" data-reveal="clip">
+                    <div class="edu-main">
+                        <h3>Bachelor of Computer Applications (BCA)</h3>
+                        <p class="edu-college">Shree Swaminarayan College of Computer Science</p>
+                        <p class="edu-note">Focused on software development, algorithms, and mobile application
+                            development. Graduated with honors.</p>
+                    </div>
+                    <div class="edu-side">
+                        <span class="pill">2021 — 2024</span>
+                        <span class="edu-location">Bhavnagar, Gujarat</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             CONTACT — fade-up + aurora morph backdrop
+             ============================================ -->
+        <section id="contact" class="section contact" aria-label="Contact">
+            <div class="container">
+                <header class="section-head section-head-center" data-reveal="fade-up">
+                    <span class="section-tag">06 — Contact</span>
+                    <h2 class="section-title">Let's build something<br><span class="gradient-text">amazing.</span>
+                    </h2>
+                    <p class="section-sub">Have a project in mind? I usually reply within a day.</p>
+                </header>
+                <div class="contact-grid" data-reveal-group>
+                    <div class="contact-info" data-reveal="fade-up">
+                        <a href="mailto:trivediyash2909@gmail.com" class="glass-card contact-tile" data-magnetic>
+                            <span class="contact-tile-label">Email</span>
+                            <span class="contact-tile-value">trivediyash2909@gmail.com</span>
+                        </a>
+                        <div class="glass-card contact-tile">
+                            <span class="contact-tile-label">Location</span>
+                            <span class="contact-tile-value">Bhavnagar, Gujarat, India</span>
+                        </div>
+                        <div class="contact-socials">
+                            <a href="https://www.linkedin.com/in/yash-trivedi-6b9568249" target="_blank"
+                                rel="noopener" class="social-btn" data-magnetic aria-label="LinkedIn profile">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.11 20.45H3.56V9h3.55v11.45z" />
+                                </svg>
+                            </a>
+                            <a href="https://github.com" target="_blank" rel="noopener" class="social-btn"
+                                data-magnetic aria-label="GitHub profile">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.53-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.04.77 2.1v3.11c0 .3.21.66.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <form class="glass-card contact-form" id="contactForm" data-reveal="fade-up">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <input type="text" id="fld-name" name="name" placeholder=" " required
+                                    autocomplete="name">
+                                <label for="fld-name">Name</label>
+                            </div>
+                            <div class="form-field">
+                                <input type="email" id="fld-email" name="email" placeholder=" " required
+                                    autocomplete="email">
+                                <label for="fld-email">Email</label>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <input type="text" id="fld-subject" name="subject" placeholder=" " required>
+                            <label for="fld-subject">Subject</label>
+                        </div>
+                        <div class="form-field">
+                            <textarea id="fld-message" name="message" rows="5" placeholder=" " required></textarea>
+                            <label for="fld-message">Message</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" data-magnetic>
+                            <span class="btn-label">Send Message</span>
+                            <span class="btn-arrow" aria-hidden="true">→</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================================
+         Footer
+         ============================================ -->
+    <footer class="footer" role="contentinfo">
+        <div class="container footer-inner">
+            <span class="footer-logo">YT<span class="logo-dot">.</span></span>
+            <p class="footer-text">© <span id="year"></span> Yash Trivedi. Crafted with vanilla HTML, CSS &amp; JS.</p>
+            <a href="#hero" class="footer-top" data-magnetic aria-label="Back to top">↑</a>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         Project Modals
+         ============================================ -->
+
+    <!-- Cloud Job Manager -->
+    <div id="modal-cloudjob" class="modal" aria-hidden="true" role="dialog" aria-label="Cloud Job Manager details">
+        <div class="modal-card glass-card">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <span class="project-kicker">US-Based Field Service Management Platform</span>
+            <h2 class="modal-title">Cloud Job Manager</h2>
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>A large-scale field service management platform for US-based clients, supporting business owners,
+                    workers, and customers through dedicated role-based portals — from scheduling and quotations to
+                    invoicing and in-person card payments.</p>
+            </div>
+            <div class="modal-section">
+                <h3>What I Built</h3>
+                <ul>
+                    <li>Modules for job scheduling, appointments, quotations, invoices, contracts, and work order
+                        management</li>
+                    <li>Role-based access for Admin, Worker, and Customer portals</li>
+                    <li>Native Dejavoo Tap-to-Pay card payments plus Google Pay and Apple Pay via the NMI payment
+                        gateway</li>
+                    <li>Dark mode support, home-screen widgets, and REST API integration</li>
+                    <li>Features and enhancements driven by feedback from US-based clients</li>
+                </ul>
+            </div>
+            <div class="modal-section">
+                <h3>Tech Stack</h3>
+                <div class="project-tags">
+                    <span class="pill">Flutter</span><span class="pill">REST APIs</span><span class="pill">Offline
+                        Storage</span><span class="pill">GPS</span><span class="pill">NMI Gateway</span><span
+                        class="pill">Dejavoo Tap-to-Pay</span><span class="pill">Google Pay</span><span
+                        class="pill">Apple Pay</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pictora -->
+    <div id="modal-pictora" class="modal" aria-hidden="true" role="dialog" aria-label="Pictora details">
+        <div class="modal-card glass-card">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <span class="project-kicker">AI-Powered Mobile Image Enhancement</span>
+            <h2 class="modal-title">Pictora — AI Photo Enhancer</h2>
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>A Flutter-based AI photo enhancement application delivering high-quality image upscaling and
+                    background removal using state-of-the-art deep learning models.</p>
+            </div>
+            <div class="modal-section">
+                <h3>What I Built</h3>
+                <ul>
+                    <li>Integrated AI models (GFPGAN, Real-ESRGAN) based on official documentation</li>
+                    <li>Photo enhancement and background removal pipelines</li>
+                    <li>Complete Flutter integration with optimized rendering and UI performance</li>
+                    <li>Production-ready UX for real-time image processing</li>
+                </ul>
+            </div>
+            <div class="modal-section">
+                <h3>Tech Stack</h3>
+                <div class="project-tags">
+                    <span class="pill">Flutter</span><span class="pill">Dart</span><span class="pill">AI /
+                        ML</span><span class="pill">GFPGAN</span><span class="pill">Real-ESRGAN</span><span
+                        class="pill">REST APIs</span>
+                </div>
+            </div>
+            <a href="https://play.google.com/store/apps/details?id=com.pictora&hl=en_IN" target="_blank"
+                rel="noopener" class="btn btn-primary btn-sm" data-magnetic>
+                <span class="btn-label">Live on Play Store</span><span class="btn-arrow" aria-hidden="true">↗</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Cloud Rental Manager -->
+    <div id="modal-cloud" class="modal" aria-hidden="true" role="dialog" aria-label="Cloud Rental Manager details">
+        <div class="modal-card glass-card">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <span class="project-kicker">Enterprise Property Management Platform (US Clients)</span>
+            <h2 class="modal-title">Cloud Rental Manager</h2>
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>A large-scale property management solution for companies managing rental properties across the
+                    United States, supporting multiple roles and complex workflows.</p>
+            </div>
+            <div class="modal-section">
+                <h3>What I Built</h3>
+                <ul>
+                    <li>Modules for property listing, tenant onboarding, and lease processing</li>
+                    <li>Vendor and staff management workflows</li>
+                    <li>Role-based access control for companies, staff, vendors, and tenants</li>
+                    <li>Worked directly with US-based clients to refine workflows and deliver complex business logic
+                    </li>
+                    <li>Clean Architecture for scalable and maintainable code</li>
+                </ul>
+            </div>
+            <div class="modal-section">
+                <h3>Tech Stack</h3>
+                <div class="project-tags">
+                    <span class="pill">Flutter</span><span class="pill">REST APIs</span><span class="pill">Role-Based
+                        Access</span><span class="pill">Clean Architecture</span>
+                </div>
+            </div>
+            <a href="https://play.google.com/store/apps/details?id=com.hostmerchantservices.cloudrentalmanager"
+                target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-magnetic>
+                <span class="btn-label">Live on Play Store</span><span class="btn-arrow" aria-hidden="true">↗</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Rangoli Dandiya -->
+    <div id="modal-rangoli" class="modal" aria-hidden="true" role="dialog" aria-label="Rangoli Dandiya details">
+        <div class="modal-card glass-card">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <span class="project-kicker">QR-Based Event Entry &amp; Verification</span>
+            <h2 class="modal-title">Rangoli Dandiya — E-Pass System</h2>
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>A three-application digital event management system for secure entry and QR verification at
+                    large-scale Garba and Dandiya events — a user app, a scanner app, and a partner app for Navratri
+                    group organizers.</p>
+            </div>
+            <div class="modal-section">
+                <h3>What I Built</h3>
+                <ul>
+                    <li><strong>User App</strong> — generates and displays unique digital E-Passes with QR codes</li>
+                    <li><strong>Scanner App</strong> — real-time pass validation for event staff and bouncers</li>
+                    <li><strong>E-Pass Partner App</strong> — lets Navratri group partners create and manage group
+                        members and registrations</li>
+                    <li>Secure QR generation and scanning workflows, optimized for high-crowd events</li>
+                </ul>
+            </div>
+            <div class="modal-section">
+                <h3>Tech Stack</h3>
+                <div class="project-tags">
+                    <span class="pill">Flutter</span><span class="pill">QR Scanning</span><span class="pill">Secure
+                        Validation</span><span class="pill">Real-Time</span>
+                </div>
+            </div>
+            <a href="https://play.google.com/store/apps/details?id=com.sparrowsofttech.epass&hl=en_IN" target="_blank"
+                rel="noopener" class="btn btn-primary btn-sm" data-magnetic>
+                <span class="btn-label">Live on Play Store</span><span class="btn-arrow" aria-hidden="true">↗</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Homely Hope -->
+    <div id="modal-homely" class="modal" aria-hidden="true" role="dialog" aria-label="Homely Hope details">
+        <div class="modal-card glass-card">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <span class="project-kicker">Social Impact Platform for Homeless Support</span>
+            <h2 class="modal-title">Homely Hope</h2>
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>A multi-module social-impact application connecting homeless individuals with organizations,
+                    donors, and employers through a unified digital platform.</p>
+            </div>
+            <div class="modal-section">
+                <h3>What I Built</h3>
+                <ul>
+                    <li>Registration and onboarding flows for homeless individuals</li>
+                    <li>Organization dashboards to manage users and donations</li>
+                    <li>Donation workflows for donors through verified organizations</li>
+                    <li>Merchant module for job postings and employment opportunities</li>
+                    <li>End-to-end system connecting all stakeholders</li>
+                </ul>
+            </div>
+            <div class="modal-section">
+                <h3>Tech Stack</h3>
+                <div class="project-tags">
+                    <span class="pill">Flutter</span><span class="pill">Multi-Module</span><span class="pill">Social
+                        Impact</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
