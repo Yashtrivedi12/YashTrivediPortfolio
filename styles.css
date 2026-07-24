@@ -72,12 +72,22 @@ html {
     scroll-padding-top: 110px;
 }
 
+/* Kill horizontal overflow at the root. Off-screen reveal transforms
+   (translateX) extend the page's scrollable width, which makes mobile
+   browsers load "zoomed" with the navbar cut off. `clip` is enforced
+   far more reliably than `hidden` on mobile; `hidden` stays as the
+   fallback for older browsers. */
+html,
+body {
+    overflow-x: hidden;
+    overflow-x: clip;
+}
+
 body {
     font-family: var(--font-body);
     background: var(--bg-0);
     color: var(--text-mid);
     line-height: 1.65;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -469,6 +479,11 @@ body.cursor-hover .cursor-ring {
     display: flex;
     gap: 0.25rem;
     margin-left: auto;
+}
+
+/* CTA + email block lives only inside the mobile full-screen menu */
+.nav-menu-extra {
+    display: none;
 }
 
 .nav-link {
@@ -1907,6 +1922,13 @@ html.js [data-reveal].in-view {
     color: var(--text-hi);
 }
 
+.modal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+}
+
 /* ------------------------------------------------------------
    22. Responsive
    ------------------------------------------------------------ */
@@ -1918,17 +1940,8 @@ html.js [data-reveal].in-view {
     .hero-grid {
         grid-template-columns: 1fr;
         gap: 4rem;
-        text-align: center;
-    }
-
-    .hero-copy {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .hero-sub {
-        margin-inline: auto;
+        /* content stays left-aligned when stacked — centered split-text
+           wraps raggedly on narrow screens */
     }
 
     .hero-visual {
@@ -1965,21 +1978,55 @@ html.js [data-reveal].in-view {
         --section-gap: 7rem;
     }
 
+    /* Shorter slide-in distances on small screens — big offsets are the
+       main source of sideways overflow before elements reveal */
+    html.js [data-reveal="slide-left"] {
+        transform: translateX(28px);
+    }
+
+    html.js [data-reveal="slide-right"] {
+        transform: translateX(-28px);
+    }
+
+    /* ------ Full-screen editorial menu ------ */
     .nav-menu {
         position: fixed;
         inset: 0;
         z-index: -1;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
-        gap: 0.6rem;
+        gap: 0.15rem;
         margin-left: 0;
-        background: rgba(3, 0, 20, 0.92);
+        padding: 6.5rem 9vw 3rem;
+        overflow: hidden;
+        counter-reset: navi;
+        background:
+            radial-gradient(55% 38% at 88% 8%, rgba(139, 92, 246, 0.18), transparent 65%),
+            radial-gradient(45% 32% at 8% 95%, rgba(34, 211, 238, 0.13), transparent 65%),
+            rgba(3, 0, 20, 0.94);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
         opacity: 0;
         visibility: hidden;
         transition: opacity var(--t-fast) var(--ease-out), visibility 0s linear var(--t-fast);
+    }
+
+    /* Giant outlined watermark running down the right edge */
+    .nav-menu::before {
+        content: 'MENU';
+        position: absolute;
+        top: 50%;
+        right: -6vw;
+        transform: translateY(-50%) rotate(90deg);
+        font-family: var(--font-display);
+        font-size: 32vw;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.02);
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
+        pointer-events: none;
+        white-space: nowrap;
     }
 
     body.menu-open .nav-menu {
@@ -1988,19 +2035,95 @@ html.js [data-reveal].in-view {
         transition-delay: 0s;
     }
 
+    .nav-menu li {
+        counter-increment: navi;
+    }
+
     .nav-menu .nav-link {
-        font-size: 1.5rem;
+        display: flex;
+        align-items: baseline;
+        gap: 0.9rem;
+        padding: 0.5rem 0;
         font-family: var(--font-display);
-        padding: 0.7rem 1.6rem;
+        font-size: clamp(2rem, 8.5vw, 2.7rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        color: var(--text-mid);
+        background: none;
+        border-radius: 0;
         opacity: 0;
-        transform: translateY(18px);
-        transition: opacity var(--t-fast) var(--ease-out) var(--md, 0s),
-            transform var(--t-fast) var(--ease-spring) var(--md, 0s);
+        transform: translateY(34px) rotate(1.5deg);
+        transform-origin: left bottom;
+        transition: opacity var(--t-med) var(--ease-out) var(--md, 0s),
+            transform var(--t-med) var(--ease-spring) var(--md, 0s),
+            color var(--t-fast);
+    }
+
+    /* Leading index number — 01, 02, 03… (pure CSS counters) */
+    .nav-menu .nav-link::before {
+        content: counter(navi, decimal-leading-zero);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        color: var(--cyan);
+        opacity: 0.85;
+    }
+
+    .nav-menu .nav-link:hover {
+        background: none;
+        color: var(--text-hi);
+        transform: translateX(6px);
+    }
+
+    /* Active page — gradient headline treatment */
+    .nav-menu .nav-link.active {
+        background: linear-gradient(110deg, var(--violet-soft), var(--blue) 40%, var(--cyan));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .nav-menu .nav-link.active::before {
+        -webkit-text-fill-color: var(--cyan);
     }
 
     body.menu-open .nav-menu .nav-link {
         opacity: 1;
+        transform: translateY(0) rotate(0deg);
+    }
+
+    /* Menu footer — CTA + email, rises in last */
+    .nav-menu-extra {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.3rem;
+        margin-top: 2.8rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        width: min(320px, 78vw);
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity var(--t-med) var(--ease-out) 0.4s,
+            transform var(--t-med) var(--ease-spring) 0.4s;
+    }
+
+    body.menu-open .nav-menu-extra {
+        opacity: 1;
         transform: translateY(0);
+    }
+
+    .menu-email {
+        font-size: 0.92rem;
+        color: var(--text-low);
+        letter-spacing: 0.02em;
+        transition: color var(--t-fast);
+    }
+
+    .menu-email:hover {
+        color: var(--cyan);
     }
 
     .hamburger {
@@ -2051,20 +2174,18 @@ html.js [data-reveal].in-view {
         font-size: clamp(2.2rem, 11vw, 2.9rem);
     }
 
+    /* Buttons hug their content and sit left — full-width pills with
+       centered labels read as "centered" on a left-aligned layout */
     .hero-actions {
-        width: 100%;
-        flex-direction: column;
-    }
-
-    .hero-actions .btn {
         width: 100%;
     }
 
     .hero-stats {
         width: 100%;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 1rem 1.2rem;
-        gap: 0.8rem;
+        gap: 1.25rem;
+        flex-wrap: wrap;
     }
 
     .stat-divider {

@@ -166,7 +166,7 @@ hamburger.addEventListener('click', () => {
 });
 
 navMenu.addEventListener('click', e => {
-    if (e.target.closest('.nav-link')) {
+    if (e.target.closest('a')) {
         document.body.classList.remove('menu-open');
         hamburger.setAttribute('aria-expanded', 'false');
     }
