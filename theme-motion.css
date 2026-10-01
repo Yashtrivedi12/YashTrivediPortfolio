@@ -1,0 +1,230 @@
+/* ============================================================
+   THEME + MOTION LAYER
+   Adds a designed light theme (dark stays the original), the
+   theme toggle, and the styles used by motion.js.
+   Loaded after styles.css — content is untouched.
+   ============================================================ */
+
+:root {
+    --ease-expo: cubic-bezier(.16, 1, .3, 1);
+    --ease-expo-io: cubic-bezier(.87, 0, .13, 1);
+    --nav-bg: rgba(8, 5, 31, 0.55);
+    --nav-bg-scrolled: rgba(8, 5, 31, 0.8);
+    --line: rgba(255, 255, 255, 0.06);
+    --grid-line: rgba(255, 255, 255, 0.035);
+    --overlay: rgba(3, 0, 20, 0.7);
+    --menu-bg: rgba(3, 0, 20, 0.94);
+    color-scheme: dark;
+}
+
+/* ---------- Light theme: "paper & ink" with the same violet/cyan accents,
+   deepened so they keep contrast on a warm off-white page ---------- */
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg-0: #f6f4ef;
+    --bg-1: #ece8df;
+    --glass-bg: rgba(255, 255, 255, 0.62);
+    --glass-bg-hover: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(30, 20, 70, 0.10);
+    --glass-highlight: rgba(30, 20, 70, 0.16);
+
+    --violet: #6d28d9;
+    --violet-soft: #7c3aed;
+    --cyan: #0e7490;
+    --pink: #be185d;
+    --blue: #4f46e5;
+
+    --text-hi: #14112a;
+    --text-mid: #3f3b5c;
+    --text-low: #6b6788;
+
+    --glow-violet: 0 0 40px rgba(109, 40, 217, 0.18);
+    --shadow-card: 0 20px 50px rgba(40, 30, 90, 0.12);
+
+    --nav-bg: rgba(255, 255, 255, 0.6);
+    --nav-bg-scrolled: rgba(255, 255, 255, 0.85);
+    --line: rgba(30, 20, 70, 0.08);
+    --grid-line: rgba(30, 20, 70, 0.05);
+    --overlay: rgba(246, 244, 239, 0.75);
+    --menu-bg: rgba(246, 244, 239, 0.97);
+}
+
+/* Tokenise the original hard-coded dark values */
+.nav-inner { background: var(--nav-bg); }
+.navbar.scrolled .nav-inner { background: var(--nav-bg-scrolled); }
+.marquee { border-color: var(--line); }
+.modal { background: var(--overlay); }
+.bg-grid {
+    background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+}
+body { transition: background-color .6s var(--ease-expo), color .6s var(--ease-expo); }
+
+/* ---------- Light-theme specific adjustments ---------- */
+:root[data-theme="light"] .nav-inner,
+:root[data-theme="light"] .navbar.scrolled .nav-inner { box-shadow: 0 12px 40px rgba(40, 30, 90, 0.08); }
+:root[data-theme="light"] .aurora-blob { opacity: .28; }
+:root[data-theme="light"] .bg-noise { opacity: .25; }
+:root[data-theme="light"] .bg-particles { opacity: .45; }
+:root[data-theme="light"] .bg-spotlight { mix-blend-mode: multiply; opacity: .35; }
+:root[data-theme="light"] .btn-primary { color: #fff; }
+:root[data-theme="light"] .modal-card,
+:root[data-theme="light"] .exp-card,
+:root[data-theme="light"] .float-chip { background: rgba(255, 255, 255, .9); }
+:root[data-theme="light"] .status-pill { color: #047857 !important; }
+:root[data-theme="light"] ::selection { background: rgba(109, 40, 217, .2); color: var(--text-hi); }
+:root[data-theme="light"] .cursor-ring { border-color: rgba(30, 20, 70, .35); }
+:root[data-theme="light"] .cursor-dot { background: var(--violet); }
+:root[data-theme="light"] input,
+:root[data-theme="light"] textarea { color: var(--text-hi); background: rgba(255, 255, 255, .7); }
+@media (max-width: 1024px) {
+    :root[data-theme="light"] .nav-menu {
+        background:
+            radial-gradient(55% 38% at 88% 8%, rgba(109, 40, 217, .10), transparent 65%),
+            radial-gradient(45% 32% at 8% 95%, rgba(14, 116, 144, .08), transparent 65%),
+            var(--menu-bg) !important;
+    }
+    :root[data-theme="light"] .nav-menu .nav-link::before { color: rgba(30, 20, 70, .04) !important; -webkit-text-stroke: 1px rgba(30, 20, 70, .1) !important; }
+}
+
+/* Surface rhythm: alternate sections get a subtle tinted plate */
+.section:nth-of-type(odd)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg-1) 70%, transparent) 15%, color-mix(in srgb, var(--bg-1) 70%, transparent) 85%, transparent);
+}
+.section { position: relative; isolation: isolate; }
+
+/* ---------- Theme toggle: a sun that eclipses into a moon ---------- */
+.theme-toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-hi);
+    transition: transform .5s var(--ease-expo), border-color .3s;
+}
+.theme-toggle:hover { transform: rotate(-20deg) scale(1.06); border-color: var(--violet-soft); }
+.theme-toggle svg { width: 20px; height: 20px; overflow: visible; }
+.theme-toggle .sun-core { transition: r .6s var(--ease-expo), transform .6s var(--ease-expo); transform-origin: center; }
+.theme-toggle .sun-rays { transition: transform .7s var(--ease-expo), opacity .4s; transform-origin: 12px 12px; }
+.theme-toggle .moon-cut { transition: transform .7s var(--ease-expo); }
+:root[data-theme="dark"] .theme-toggle .sun-rays { transform: rotate(-90deg) scale(.4); opacity: 0; }
+:root[data-theme="dark"] .theme-toggle .moon-cut { transform: translate(-7px, 5px); }
+:root[data-theme="light"] .theme-toggle .moon-cut { transform: translate(0, 0); }
+@media (max-width: 1024px) { .theme-toggle { margin-left: auto; } .theme-toggle + .hamburger { margin-left: 0; } }
+
+/* View-transition: circle grows from the toggle (set via JS) */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 999; }
+
+/* ---------- Motion hooks ---------- */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Heading word masks */
+.tm-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
+.tm-word > span { display: inline-block; will-change: transform; }
+
+/* Image clip reveal wrapper */
+.tm-clip { overflow: hidden; }
+
+/* Velocity marquee: GSAP drives it, so stop the CSS loop */
+html.tm-gsap .marquee-track { animation: none; }
+.marquee-track { will-change: transform; }
+
+/* Horizontal project track (desktop only, built by JS) */
+html.tm-gsap .projects-grid.tm-hscroll {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    width: max-content;
+}
+html.tm-gsap .projects-grid.tm-hscroll > * {
+    width: min(460px, 38vw);
+    flex: 0 0 auto;
+}
+.tm-hprogress {
+    height: 2px;
+    margin-top: 2rem;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.tm-hprogress span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--violet), var(--cyan));
+    transform-origin: left;
+    transform: scaleX(0);
+}
+
+/* Hero exit transform */
+.hero { transform-origin: 50% 0; }
+
+/* Finale line */
+.tm-finale {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3rem, 12vw, 10rem);
+    line-height: .9;
+    letter-spacing: -.05em;
+    text-align: center;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--glass-highlight);
+    padding: 3rem 0 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    user-select: none;
+}
+.tm-finale span { display: inline-block; }
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle, .theme-toggle * { transition: none !important; }
+}
+
+/* ---------- About + Skills motion ---------- */
+.tm-read { transition: none; }
+.tm-read .tm-rw { opacity: .22; transition: opacity .3s linear; }
+
+/* Pointer spotlight on cards (background only — never fights tilt/reveal transforms) */
+.about-card, .skill-card { position: relative; }
+.tm-spot {
+    position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--violet) 22%, transparent), transparent 70%);
+    opacity: 0; transition: opacity .4s var(--ease-expo);
+}
+.about-card:hover .tm-spot, .skill-card:hover .tm-spot { opacity: 1; }
+
+/* Icons float gently once revealed */
+.about-card-icon { will-change: transform; }
+.about-card:hover .about-card-icon { animation: tm-bob 1.2s var(--ease-expo) infinite alternate; }
+@keyframes tm-bob { to { transform: translateY(-6px) rotate(-8deg) scale(1.12); } }
+
+/* Skill cards: an index number and a "build" line that draws across the top */
+.tm-idx {
+    position: absolute; top: 1rem; right: 1.2rem;
+    font: 600 .75rem/1 var(--font-display); letter-spacing: .1em;
+    color: var(--text-low); opacity: .7;
+}
+.tm-line {
+    position: absolute; left: 0; top: 0; height: 2px; width: 100%;
+    background: linear-gradient(90deg, var(--violet), var(--cyan));
+    transform: scaleX(0); transform-origin: left;
+}
+.skill-card:hover .tm-line { transform: scaleX(1) !important; transition: transform .6s var(--ease-expo); }
+
+/* Column drift uses the independent `translate` property */
+.skills-grid > .skill-card { translate: 0 var(--py, 0px); }
+@media (max-width: 760px) { .skills-grid > .skill-card { translate: none; } }

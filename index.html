@@ -16,7 +16,8 @@
         content="Flutter Developer, Mobile App Developer, Dart Developer, Flutter Portfolio, Cross-platform Development, Android Developer, iOS Developer, Clean Architecture, State Management, REST API Integration, Firebase, Payment Gateways, Mobile Development India, Gujarat Developer">
     <meta name="author" content="Yash Trivedi">
     <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#030014">
+    <meta name="theme-color" content="#030014" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
 
     <link rel="canonical" href="https://yashtrivedi.dev">
 
@@ -47,10 +48,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css">
+    <!-- No-flash theme: saved choice, else system preference -->
+    <script>
+        (function () {
+            var t;
+            try { t = localStorage.getItem('theme'); } catch (e) { }
+            if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+            if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('tm-booting');
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="theme-motion.css?v=3">
+    <link rel="stylesheet" href="signature.css?v=10">
 
     <!-- ============================================
          Structured Data (JSON-LD)
@@ -130,7 +143,7 @@
          ============================================ -->
     <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-inner">
-            <a href="#hero" class="nav-logo" data-magnetic>YT<span class="logo-dot">.</span></a>
+            <a href="#hero" class="nav-logo sig-logo" data-magnetic aria-label="Yash Trivedi, home"><span class="sig-name">Yash</span><span class="sig-dot" aria-hidden="true"></span><svg class="sig-swash" viewBox="0 0 120 14" aria-hidden="true"><path d="M2 9 C 30 2, 70 2, 118 7" pathLength="1"/></svg></a>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#hero" class="nav-link active">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
@@ -149,6 +162,18 @@
             <a href="#contact" class="btn btn-primary btn-sm nav-cta" data-magnetic>
                 <span class="btn-label">Let's Talk</span>
             </a>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch colour theme">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <mask id="moonMask">
+                        <rect width="24" height="24" fill="#fff" />
+                        <circle class="moon-cut" cx="24" cy="2" r="7" fill="#000" />
+                    </mask>
+                    <circle class="sun-core" cx="12" cy="12" r="5.5" fill="currentColor" mask="url(#moonMask)" />
+                    <g class="sun-rays" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                        <path d="M12 1.5v2M12 20.5v2M1.5 12h2M20.5 12h2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M4.6 19.4L6 18M18 6l1.4-1.4" />
+                    </g>
+                </svg>
+            </button>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"
                 aria-controls="navMenu">
                 <span></span><span></span>
@@ -401,6 +426,91 @@
                         <h3>Push Notifications</h3>
                         <p>FCM — foreground/background &amp; topic-based messaging</p>
                     </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>AI-Powered Development</h3>
+                        <p>Building backends, websites &amp; apps end-to-end with Claude, Cursor &amp; Antigravity</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>React Native</h3>
+                        <p>Cross-platform mobile apps with React Native alongside Flutter</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>Full-Stack Web</h3>
+                        <p>Front-end &amp; back-end websites — responsive UI to REST APIs</p>
+                    </div>
+                    <div class="glass-card skill-card tilt" data-reveal="rise">
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <h3>Production-Ready Delivery</h3>
+                        <p>Fast delivery of stable apps, published on the Play Store &amp; App Store</p>
+                    </div>
+                </div>
+                <div class="stack-block">
+                    <span class="tools-label">Stack &amp; AI Tools</span>
+                    <ul class="stack-grid" aria-label="Technologies and tools">
+                    <li class="stack-tile" style="--brand:#47c5fb">
+                        <span class="stack-logo" style="--logo:url(assets/logos/flutter.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Flutter</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#0ea5e9">
+                        <span class="stack-logo" style="--logo:url(assets/logos/dart.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Dart</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#61dafb">
+                        <span class="stack-logo" style="--logo:url(assets/logos/react.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">React Native</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#ffca28">
+                        <span class="stack-logo" style="--logo:url(assets/logos/firebase.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Firebase</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#d97757">
+                        <span class="stack-logo" style="--logo:url(assets/logos/claude.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Claude</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:var(--text-hi)">
+                        <span class="stack-logo" style="--logo:url(assets/logos/cursor.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Cursor</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#8b9cff">
+                        <span class="stack-logo" style="--logo:url(assets/logos/antigravity.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Antigravity</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:var(--text-hi)">
+                        <span class="stack-logo" style="--logo:url(assets/logos/openai.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">ChatGPT</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#2684ff">
+                        <span class="stack-logo" style="--logo:url(assets/logos/jira.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Jira</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#2684ff">
+                        <span class="stack-logo" style="--logo:url(assets/logos/bitbucket.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Bitbucket</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:var(--text-hi)">
+                        <span class="stack-logo" style="--logo:url(assets/logos/github.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">GitHub</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#ff6c37">
+                        <span class="stack-logo" style="--logo:url(assets/logos/postman.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Postman</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#147efb">
+                        <span class="stack-logo" style="--logo:url(assets/logos/xcode.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Xcode</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#34a853">
+                        <span class="stack-logo" style="--logo:url(assets/logos/googleplay.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">Play Store</span>
+                    </li>
+                    <li class="stack-tile" style="--brand:#0d96f6">
+                        <span class="stack-logo" style="--logo:url(assets/logos/appstore.svg)" aria-hidden="true"></span>
+                        <span class="stack-name">App Store</span>
+                    </li>
+                    </ul>
                 </div>
                 <div class="tools-strip" data-reveal="fade-up">
                     <span class="tools-label">Tools &amp; Workflow</span>
@@ -408,11 +518,13 @@
                         <span class="pill">GitHub</span>
                         <span class="pill">Postman</span>
                         <span class="pill">Jira</span>
+                        <span class="pill">Bitbucket</span>
                         <span class="pill">Xcode</span>
                         <span class="pill">VS Code</span>
                         <span class="pill">Claude AI</span>
                         <span class="pill">ChatGPT</span>
                         <span class="pill">Cursor AI</span>
+                        <span class="pill">Antigravity</span>
                         <span class="pill">App Store Connect</span>
                         <span class="pill">Play Console</span>
                     </div>
@@ -644,7 +756,7 @@
          ============================================ -->
     <footer class="footer" role="contentinfo">
         <div class="container footer-inner">
-            <span class="footer-logo">YT<span class="logo-dot">.</span></span>
+            <span class="footer-logo sig-logo" aria-label="Yash Trivedi"><span class="sig-name">Yash</span><span class="sig-dot" aria-hidden="true"></span><svg class="sig-swash" viewBox="0 0 120 14" aria-hidden="true"><path d="M2 9 C 30 2, 70 2, 118 7" pathLength="1"/></svg></span><span class="ls" aria-hidden="true">/</span><span class="lb" aria-hidden="true">&gt;</span></span>
             <p class="footer-text">© <span id="year"></span> Yash Trivedi. Crafted with vanilla HTML, CSS &amp; JS.</p>
             <a href="#hero" class="footer-top" data-magnetic aria-label="Back to top">↑</a>
         </div>
@@ -854,7 +966,12 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+    <script src="motion.js?v=3" defer></script>
+    <script src="signature.js?v=8" defer></script>
 </body>
 
 </html>
